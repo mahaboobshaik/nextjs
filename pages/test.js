@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'next/router';
 
 import BaseLayout from '../components/layouts/BaseLayout';
+import BasePage from '../components/BasePage';
 
 class Test extends Component {
 
@@ -17,7 +18,9 @@ class Test extends Component {
         const { testId } = this.props;
         return (
             <BaseLayout>
-                <h1>I am Test Page of {testId}</h1>
+                <BasePage>
+                    <h1>I am Test Page of {testId}</h1>
+                </BasePage>
             </BaseLayout>
         );
     }
