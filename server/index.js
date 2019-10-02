@@ -1,10 +1,21 @@
 const express = require('express')
 const next = require('next');
-const routes = require('./routes');
+const routes = require('../routes');
 
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
 const handle = routes.getRequestHandler(app)
+
+const secretData = [
+    {
+        title: 'SecretData 1',
+        description: 'Plans how to build spaceship'
+    },
+    {
+        title: 'SecretData 2',
+        description: 'My secret password'
+    }
+]
 
 app.prepare()
     .then(() => {
@@ -17,6 +28,10 @@ app.prepare()
         //     app.render(req, res, actualPage, queryParams)
         //     console.log('----------------End serving /portfolio/:id of the requests!!!!!!!!!!!----------');
         // })
+
+        server.get('/api/v1/secret', (req, res) => {
+            return res.json(secretData);
+        })
 
         server.get('*', (req, res) => {
             // console.log('---------------serving all of the requests!!!!!!!!!!!----------');

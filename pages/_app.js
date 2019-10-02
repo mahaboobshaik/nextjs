@@ -15,7 +15,7 @@ class MyApp extends App {
   static async getInitialProps(appContext) {
     // calls page's `getInitialProps` and fills `appProps.pageProps`
     // const isAuthenticated = process.browser ? auth0.clientAuth() : auth0.serverAuth(appContext.ctx.req);
-    const user = process.browser ? auth0.clientAuth() : auth0.serverAuth(appContext.ctx.req);
+    const user = process.browser ? await auth0.clientAuth() : await auth0.serverAuth(appContext.ctx.req);
     
     const appProps = await App.getInitialProps(appContext);
     

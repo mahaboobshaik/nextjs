@@ -17,7 +17,6 @@ class Home extends Component {
     render() {
         
         const { isAuthenticated, user} = this.props.auth;
-        console.log(user);
 
         return (
             <BaseLayout className="cover" {...this.props.auth}>
