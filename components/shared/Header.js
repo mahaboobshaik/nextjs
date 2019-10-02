@@ -1,46 +1,8 @@
-// import React, { Component, Fragment } from 'react';
-// import Link from 'next/link';
-// import { Link as NextLink } from '../../routes'
-
-// class Header extends Component {
-//     render() {
-//         const title = this.props.title;
-//         return (
-//             <Fragment>
-//                 <Link href="/"><a>Home</a></Link>
-//                 <Link href="/about"><a>About</a></Link>
-//                 <Link href="/portfolios"><a>Portfolios</a></Link>
-//                 <Link href="/blog"><a>Blog</a></Link>
-//                 <Link href="/cv"><a>CV</a></Link>
-//                 <NextLink route='test' params={{id: '2'}}> Test2 </NextLink>
-//                 <NextLink route='/test/5'> Test5 </NextLink>
-//                 <style jsx>
-//                     {`
-//                         a{
-//                             font-size: 20px;
-//                         };
-//                         .customClass{
-//                             color: red;
-//                         }
-//                     `}
-//                 </style>
-//             </Fragment>
-//         );
-//     }
-// }
-
-// export default Header;
-
 import React, { Component } from 'react';
 import Link from 'next/link';
-import {
-  Collapse,
-  Navbar,
-  NavbarToggler,
-  NavbarBrand,
-  Nav,
-  NavItem,
-  NavLink } from 'reactstrap';
+import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
+import auth0 from '../../services/auth0';
+
 
 const BsNavLink = (props) => {
 
@@ -48,6 +10,18 @@ const BsNavLink = (props) => {
 
     return (
         <Link href={route}><a className="nav-link port-navbar-link">{title}</a></Link>
+    )
+}
+
+const Login = () => {
+    return (
+        <span  onClick={auth0.login} className="nav-link port-navbar-link clickable"> Login </span>
+    )
+}
+
+const Logout = () => {
+    return (
+        <span onClick={auth0.logout} className="nav-link port-navbar-link clickable"> Logout </span>
     )
 }
 
@@ -66,6 +40,9 @@ export default class Example extends Component {
     });
   }
   render() {
+
+    const { isAuthenticated } = this.props;
+
     return (
       <div>
         <Navbar className="port-navbar port-default absolute" color="transparent" dark expand="md">
@@ -88,6 +65,18 @@ export default class Example extends Component {
               <NavItem className="port-navbar-item">
                 <BsNavLink route='/cv' title="Cv" />
               </NavItem>
+              {
+                !isAuthenticated  &&
+                <NavItem className="port-navbar-item">
+                  <Login />
+                </NavItem>
+              }
+              {
+                isAuthenticated &&
+                <NavItem className="port-navbar-item">
+                  <Logout />
+                </NavItem>
+              }
             </Nav>
           </Collapse>
         </Navbar>

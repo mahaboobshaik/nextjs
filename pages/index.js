@@ -4,6 +4,8 @@ import Typed from 'react-typed';
 
 import BaseLayout from '../components/layouts/BaseLayout';
 
+
+
 class Home extends Component {
 
     constructor(props){
@@ -14,8 +16,11 @@ class Home extends Component {
 
     render() {
         
+        const { isAuthenticated, user} = this.props.auth;
+        console.log(user);
+
         return (
-            <BaseLayout className="cover">
+            <BaseLayout className="cover" {...this.props.auth}>
                 <div className="main-section">
                     <div className="background-image">
                     <img src="/static/images/background-index.png" />
