@@ -6,32 +6,38 @@ import { Row, Col } from 'reactstrap';
 
 import withAuth from '../components/hoc/withAuth';
 import PortfolioCreateFrom from '../components/portfolios/PortfolioCreateForm';
-import { createPortfolio } from '../actions';
+import { getPortfolioById, updatePortfolio } from '../actions';
 
 import { Router } from '../routes';
 
-const INITIAL_VALUES = {    title: '', 
-                            company: '', 
-                            location: '', 
-                            position: '', 
-                            description: '', 
-                            startDate: '', 
-                            endDate: '' };
+class PortfolioEdit extends Component {
 
-class PortfolioNew extends Component {
+    static async getInitialProps({query}){
+
+        let portfolio = {};
+
+        try {
+            portfolio = await getPortfolioById(query.id);
+        } catch(error){
+            console.error(error);
+        }
+
+        console.log(portfolio);
+        return { portfolio }
+    }
 
     constructor(props){
         super(props);
         this.state = {
             error: undefined
         }
-        this.savePortFolio = this.savePortFolio.bind(this);
+        this.updatePortFolio = this.updatePortFolio.bind(this);
     }
 
-    savePortFolio(portfolioData, { setSubmitting }){
-        setSubmitting(true);
+    updatePortFolio(portfolioData, { setSubmitting }){
+        // setSubmitting(true);
         
-        createPortfolio(portfolioData).then((portfolio) => {
+        updatePortfolio(portfolioData).then((portfolio) => {
             setSubmitting(false);
             this.setState({error: undefined});
             Router.pushRoute('/portfolios');
@@ -45,15 +51,16 @@ class PortfolioNew extends Component {
     render() {
 
         const { error } = this.state;
+        const { portfolio } = this.props;
 
         return (
             <BaseLayout {...this.props.auth}>
-                <BasePage className="portfolio-create-page" title="Create New Portfolio">
+                <BasePage className="portfolio-create-page" title="Update Portfolio">
                     <Row >
                         <Col md="6">
-                            <PortfolioCreateFrom initialValues={INITIAL_VALUES} 
-                                                    error={error} 
-                                                    onSubmit={this.savePortFolio}/>
+                            <PortfolioCreateFrom initialValue={portfolio} 
+                                                error={error} 
+                                                onSubmit={this.updatePortFolio}/>
                         </Col>
                     </Row>
                 </BasePage>
@@ -62,5 +69,5 @@ class PortfolioNew extends Component {
     }
 }
 
-export default withAuth("siteOwner")(PortfolioNew);
+export default withAuth("siteOwner")(PortfolioEdit);
 

@@ -6,6 +6,8 @@ import auth0 from '../services/auth0';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/main.scss';
 
+const namespace = 'http://localhost:3000'
+
 class MyApp extends App {
   // Only uncomment this method if you have blocking data requirements for
   // every single page in your application. This disables the ability to
@@ -19,7 +21,9 @@ class MyApp extends App {
     
     const appProps = await App.getInitialProps(appContext);
     
-    const auth = { user, isAuthenticated: !!user };
+    const isSiteOwner = user && user[namespace+'/role'] === 'siteOwner';
+
+    const auth = { user, isAuthenticated: !!user, isSiteOwner };
   
     return { ...appProps, auth }
   }

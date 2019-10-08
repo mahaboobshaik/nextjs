@@ -5,10 +5,17 @@ import { FormGroup, Label, Button } from 'reactstrap';
 import "react-datepicker/dist/react-datepicker.css";
 
 class PortDate extends Component {
-    state = {
-        dateValue: new Date(),
-        isHidden: false
-    };
+
+    constructor(props){
+        super(props);
+
+        const dateValue = props.initialDate ? new Date(props.initialDate) : new Date();
+
+        this.state = {
+            dateValue: dateValue,
+            isHidden: false
+        }
+    }
 
     setFieldValueAndTouched(date, touched){
         const { setFieldValue, setFieldTouched } = this.props.form;

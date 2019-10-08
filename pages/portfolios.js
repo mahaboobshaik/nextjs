@@ -1,29 +1,67 @@
 
 import React, { Component, Fragment } from 'react';
 import axios from 'axios';
-import Link from 'next/link';
-import { Col, Row, Card, CardHeader, CardBody, CardText, CardTitle } from 'reactstrap';
+// import Link from 'next/link';
+import { Col, Row, Button } from 'reactstrap';
 
 import BaseLayout from '../components/layouts/BaseLayout';
 import BasePage from '../components/BasePage';
+
+import { Router } from '../routes';
+import { getPortfolios, deletePortfolio } from '../actions';
+
+import PortfolioCard from '../components/portfolios/PortfolioCard';
 
 class Portfolios extends Component {
 
     static async getInitialProps(){
 
-        let posts = [];
+        let portfolios = [];
         try{
             const response = await axios.get('https://jsonplaceholder.typicode.com/posts');
-            posts = response.data;
+            portfolios = response.data;
         } catch(err){
             console.error(err);
         }
 
-        return {posts: posts.splice(0, 10)};
+        return {portfolios: portfolios.splice(0, 10)};
+
+        // let portfolios = [];
+        // try{
+        //     portfolios = await getPortfolios();
+        // } catch(err){
+        //     console.log(err);
+        // }
+        // return { portfolios };
+
     }
 
-    renderPosts(posts){
-        return posts.map((post, index) => {
+    navigateToEdit(event, index){
+        event.stopPropagation();
+        Router.pushRoute(`/portfolios/${index}/edit`);
+    }
+
+    dispalyDeleteWarning(event, portfolioId){
+        event.stopPropagation();
+        const isConfirm = confirm('Are you sure you want delete this portfolio???');
+        if(isConfirm){
+            // delete portfolio
+            this.deletePortfolio(portfolioId);
+        }
+    }
+
+    deletePortfolio(portfolioId){
+        deletePortfolio(portfolioId)
+            .then(() => {
+                Router.pushRoute('/portfolios');
+            }).catch(err => console.error(err))
+    }
+
+    renderPortfolios(portfolios){
+
+        const { isAuthenticated, isSiteOwner } = this.props.auth;
+
+        return portfolios.map((portfolio, index) => {
             return (
                 // <li key={index}>
                 //     {/* <Link as={`/portfolio/${post.id}`} href={`/portfolio?id=${post.id}`}><a>{post.title}</a></Link> */}
@@ -31,19 +69,16 @@ class Portfolios extends Component {
                 //     {/* <Link as={`/portfolio/${post.id}`} href={`/portfolio?id=${post.id}`}><a>{post.title}</a></Link> */}
                 // </li>
                 <Col md="4" key={index}>
-                    <Fragment >
-                        <span>
-                            <Card className="portfolio-card">
-                            <CardHeader className="portfolio-card-header">Some Position {index}</CardHeader>
-                            <CardBody>
-                                <p className="portfolio-card-city"> Some Location {index} </p>
-                                <CardTitle className="portfolio-card-title">Some Company {index}</CardTitle>
-                                <CardText className="portfolio-card-text">Some Description {index}</CardText>
-                                <div className="readMore"> </div>
-                            </CardBody>
-                            </Card>
-                        </span>
-                    </Fragment>
+                    <PortfolioCard portfolio={portfolio} pIndex={index}>
+                        {
+                            isAuthenticated && isSiteOwner &&
+                            <Fragment>
+                                {/* <Button onClick={() => Router.pushRoute(`/portfolios/${portfolio._id}/edit`)} color="warning">Edit</Button>{' '} */}
+                                <Button onClick={(event) => this.navigateToEdit(event, index)} color="warning">Edit</Button>{' '}
+                                <Button onClick={(event) => this.dispalyDeleteWarning(event, index)} color="danger">Delete</Button>
+                            </Fragment>
+                        }
+                    </PortfolioCard>
                 </Col>
             )
         })
@@ -51,13 +86,20 @@ class Portfolios extends Component {
 
     render() {
         
-        const { posts } = this.props;
+        const { portfolios } = this.props;
+        const { isAuthenticated, isSiteOwner } = this.props.auth;
 
         return (
             <BaseLayout {...this.props.auth}>
                 <BasePage className="portfolio-page" title="Portfolios">
+                    {
+                        isAuthenticated && isSiteOwner &&
+                        <Button onClick={() => Router.pushRoute('/portfolioNew')} 
+                            color="success" 
+                            className="create-port-btn">Create Portfolio</Button>
+                    }
                     <Row>
-                        { this.renderPosts(posts) }
+                        { this.renderPortfolios(portfolios) }
                     </Row>
                 </BasePage>
             </BaseLayout>

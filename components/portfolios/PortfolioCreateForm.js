@@ -1,6 +1,6 @@
 import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { Button } from 'reactstrap';
+import { Button, Alert } from 'reactstrap';
 import PortInput from '../form/PortInput';
 import PortDate from '../form/PortDate';
 
@@ -9,12 +9,12 @@ const validateInputs = (values) => {
     let errors = {};
 
     Object.entries(values).map(([key, value]) => {
-        if(!values[key] && (values[key] === 'startDate' || values[key] === 'endDate'))
+        if(!values[key] && key != 'endDate')
             errors[key] = `Field ${key} is required!!!`;
     });
 
-    const startDate = values.startDate;
-    const endDate = values.endDate;
+    const startDate = new Date(values.startDate);
+    const endDate = new Date(values.endDate);
 
     if(startDate && endDate && endDate < startDate){
         errors.endDate = 'End Date can not be before start date!!!';
@@ -23,20 +23,12 @@ const validateInputs = (values) => {
     return errors;
 }
 
-const INITIAL_VALUES = {    title: '', 
-                            company: '', 
-                            location: '', 
-                            position: '', 
-                            description: '', 
-                            startDate: '', 
-                            endDate: '' };
-
-const PortfolioCreateForm = (props) => (
+const PortfolioCreateForm = ({ initialValues, onSubmit, error}) => (
     <div>
         <Formik
-            initialValues={INITIAL_VALUES}
+            initialValues={initialValues}
             validate={validateInputs}
-            onSubmit={props.onSubmit}
+            onSubmit={onSubmit}
             >
             {({ isSubmitting }) => (
                 <Form>
@@ -45,8 +37,15 @@ const PortfolioCreateForm = (props) => (
                     <Field type="text" name="location" label="Location" component={PortInput}/>
                     <Field type="text" name="position" label="Position" component={PortInput}/>
                     <Field type="textarea" name="description" label="Description" component={PortInput}/>
-                    <Field name="startDate" label="Start Date" component={PortDate}/>
-                    <Field name="endDate" label="End Date" canBeDisabled={true} component={PortDate}/>
+                    <Field name="startDate" label="Start Date" initialDate={initialValues.startDate} component={PortDate}/>
+                    <Field name="endDate" label="End Date" initialDate={initialValues.endDate} canBeDisabled={true} component={PortDate}/>
+
+                    {
+                        error &&
+                        <Alert color="danger">
+                            { error }
+                        </Alert>
+                    }
 
                     <Button color="success" size="lg" 
                             type="submit" disabled={isSubmitting} > Create </Button>
