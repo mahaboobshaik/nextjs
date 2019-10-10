@@ -1,37 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import { Editor } from 'slate-react';
-import { Value } from 'slate';
-
-// Create our initial value...
-const initialValue = Value.fromJSON({
-    document: {
-      nodes: [
-        {
-          object: 'block',
-          type: 'paragraph',
-          nodes: [
-            {
-              object: 'text',
-              text: 'A line of text in a paragraph.',
-            },
-          ],
-        },
-      ],
-    },
-});
-
-// Define a React component renderer for our code blocks.
-function CodeNode(props) {
-  return (
-    <pre {...props.attributes}>
-      <code>{props.children}</code>
-    </pre>
-  )
-}
-
-function BoldMark(props) {
-  return <strong>{props.children}</strong>
-}
+import HoverMenu from './HoverMenu';
+import { renderMark, renderNode } from './renderers';
+import { initialValue } from './initial-value';
 
 // Define our app...
 class SlateEditor extends Component {
@@ -42,60 +13,43 @@ class SlateEditor extends Component {
     }
 
     componentDidMount(){
+      this.updateMenu();
       this.setState({isLoaded: true});
     }
   
     // On change, update the app's React state with the new editor value.
     onChange = ({ value }) => {
-      this.setState({ value })
+      this.setState({ value });
     }
 
-    onKeyDown = (event, editor, next) => {
-      if (!event.ctrlKey) return next()
-  
-      // Decide what to do based on the key code...
-      switch (event.key) {
-        // When "B" is pressed, add a "bold" mark to the text.
-        case 'b': {
-          event.preventDefault();
-          editor.toggleMark('bold');
-          break
-        }
-        // When "`" is pressed, keep our existing code block logic.
-        case 'x': {
-          const isCode = editor.value.blocks.some(block => block.type == 'code')
-          event.preventDefault()
-          editor.setBlocks(isCode ? 'paragraph' : 'code')
-          break
-        }
-        // Otherwise, let other plugins handle it.
-        default: {
-          return next()
-        }
-      }
+    componentDidUpdate = () => {
+      this.updateMenu();
     }
+  
 
-    // Add a `renderBlock` method to render a `CodeNode` for code blocks.
-    renderNode = (props, editor, next) => {
-      switch (props.node.type) {
-        case 'code':
-          return <CodeNode {...props} />
-        case 'paragraph':
-          return <p {...props.attributes}>{props.children}</p>
-        default:
-          return next()
-      }
-    }
+    updateMenu = () => {
+      const menu = this.menu
+      if (!menu) return;
   
-    // Add a `renderMark` method to render marks.
-  renderMark = (props, editor, next) => {
-    switch (props.mark.type) {
-      case 'bold':
-        return <BoldMark {...props} />
-      default:
-        return next()
+      const { value } = this.state;
+      const { fragment, selection } = value;
+
+      if (selection.isBlurred || selection.isCollapsed || fragment.text === '') {
+        menu.removeAttribute('style')
+        return
+      }
+  
+      const native = window.getSelection()
+      const range = native.getRangeAt(0)
+      const rect = range.getBoundingClientRect()
+      menu.style.opacity = 1
+      menu.style.top = `${rect.top + window.pageYOffset - menu.offsetHeight}px`
+  
+      menu.style.left = `${rect.left +
+        window.pageXOffset -
+        menu.offsetWidth / 2 +
+        rect.width / 2}px`
     }
-  }
 
     // Render the editor.
     render() {
@@ -106,13 +60,27 @@ class SlateEditor extends Component {
         <Fragment>
           {
             isLoaded &&
-            <Editor value={this.state.value} 
+            <Editor 
+                    placeholder="Enter some text..."
+                    value={this.state.value} 
                     onChange={this.onChange}
-                    onKeyDown={this.onKeyDown}
-                    renderNode={this.renderNode}
-                    renderMark={this.renderMark}
+                    renderMark={renderMark}
+                    renderNode={renderNode}
+                    renderEditor={this.renderEditor}
                      />
           }
+        </Fragment>
+      )
+    }
+
+
+    renderEditor = (props, editor, next) => {
+      const children = next()
+  
+      return (
+        <Fragment>
+          {children}
+          <HoverMenu innerRef={menu => (this.menu = menu)} editor={editor} />
         </Fragment>
       )
     }
