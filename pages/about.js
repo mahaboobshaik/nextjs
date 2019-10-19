@@ -23,8 +23,7 @@ class About extends Component {
                         <p>My name is Mahaboob basha and I am an experienced software engineer. </p>
                         <p>
                         I have a Master's degree in Computer Netowrks and several years of experience working
-                        on a wide range of technologies and projects from C++ development for ultrasound devices to
-                        modern mobile and web applications in React and Angular.
+                        on a wide range of technologies and projects to modern mobile and web applications in React and Angular.
                         </p>
                         <p>
                         Throughout my career, I have acquired advanced technical knowledge and the ability to explain

@@ -1,6 +1,7 @@
 import React from 'react'
 import App from 'next/app';
 import auth0 from '../services/auth0';
+import Fonts from '../healpers/fonts';
 
 // Stylings
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -26,6 +27,10 @@ class MyApp extends App {
     const auth = { user, isAuthenticated: !!user, isSiteOwner };
   
     return { ...appProps, auth }
+  }
+
+  componentDidMount(){
+    Fonts();
   }
 
   render() {
