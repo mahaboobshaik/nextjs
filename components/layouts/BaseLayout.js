@@ -21,7 +21,6 @@ const BaseLayout = (props) => {
 
                 {canonical && <link rel="canonical" href={`${process.env.BASE_URL}${canonical}`} />}
                 <link rel="icon" type="image/ico" href="/static/favicon.ico" />
-                <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"></link>
             </Head>
             <div className="layout-container">
                 <Header className={`port-nav-${headerType}`} 

@@ -60,7 +60,7 @@ class Home extends Component {
                                         Have a look at my portfolio and job history.
                                     </div>
                                     </div>
-                                    <img className="image" src="/static/images/section-1.png" alt="Programming welcome picture"/>
+                                    <img className="image" src="/static/images/section-1.jpg" alt="Programming welcome picture"/>
                                     <div className="shadow-custom">
                                     <div className="shadow-inner"> </div>
                                     </div>
@@ -72,7 +72,7 @@ class Home extends Component {
                                         Professional and top quality service in web development.
                                     </div>
                                     </div>
-                                    <img className="image" src="/static/images/section-2.png" alt="Programming welcome picture"/>
+                                    <img className="image" src="/static/images/section-2.jpg" alt="Programming welcome picture"/>
                                     <div className="shadow-custom shadow-custom-2">
                                     <div className="shadow-inner"> </div>
                                     </div>
