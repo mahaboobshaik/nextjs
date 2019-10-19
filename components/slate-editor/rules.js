@@ -29,7 +29,6 @@ export const rules = [
         }
       },
       serialize(obj, children) {
-        debugger;
         if (obj.object == 'block') {
           switch (obj.type) {
             case 'paragraph':

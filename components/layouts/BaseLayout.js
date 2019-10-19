@@ -15,13 +15,12 @@ const BaseLayout = (props) => {
                 <meta name="keywords" content="mahaboob basha, basha portfolio" />
                 <meta property="og:title" content="Mahaboob Basha - Programmer, Developer"/>
                 <meta property="og:locale" content="en_US"/>
-                <meta property="og:url" content="http://localhost:3000"/>
+                <meta property="og:url" content={`${process.env.BASE_URL}`}/>
                 <meta property="og:type" content="website"/>
                 <meta property="og:description" content="My name is Mahaboob Basha and I am an experienced software engineer. I have a Master's degree in Computer Networks and several years of experience working on a wide range of technologies and projects to modern mobile and web applications in React." />
 
-                {canonical && <link rel="canonical" href={`http://localhost:3000${canonical}`} />}
+                {canonical && <link rel="canonical" href={`${process.env.BASE_URL}${canonical}`} />}
                 <link rel="icon" type="image/ico" href="/static/favicon.ico" />
-                <script src="https://kit.fontawesome.com/edbfcbba85.js" crossOrigin="anonymous"></script>
                 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"></link>
             </Head>
             <div className="layout-container">

@@ -4,14 +4,15 @@ import jwt from 'jsonwebtoken';
 import axios from 'axios';
 import { getCookieFromReq } from '../healpers/utils';
 
+const CLIENT_ID = process.env.CLIENT_ID;
 
 class Auth0 {
 
     constructor(){
         this.auth0 = new auth0.WebAuth({
                 domain: 'dev--6tt3x9z.auth0.com',
-                clientID: '7NRcfteyB8NkNgooxYr0VDxKZ1sV3sp0',
-                redirectUri: 'http://localhost:3000/callback',
+                clientID: CLIENT_ID,
+                redirectUri: `${process.env.BASE_URL}/callback`,
                 responseType: 'token id_token',
                 scope: 'openid'
             });
@@ -32,7 +33,7 @@ class Auth0 {
                     resolve();
                 } else if(err){
                     reject(err);
-                    console.log(err);
+                    console.error(err);
                 }
             })
         });
@@ -44,20 +45,20 @@ class Auth0 {
         const expiresAt = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime());
 
         // localStorage.setItem('access_token', authResult.accessToken);
-        Cookies.set('user', authResult.idTokenPayload);
+        // Cookies.set('user', authResult.idTokenPayload);
         Cookies.set('jwt', authResult.idToken);
-        Cookies.set('expiresAt', expiresAt);
+        // Cookies.set('expiresAt', expiresAt);
 
     }
 
     logout(){
-        Cookies.remove('user');
+        // Cookies.remove('user');
         Cookies.remove('jwt');
-        Cookies.remove('expiresAt');
+        // Cookies.remove('expiresAt');
         
         this.auth0.logout({
             redirectTo: '',
-            clientID: '7NRcfteyB8NkNgooxYr0VDxKZ1sV3sp0'
+            clientID: CLIENT_ID
         });
     }
 

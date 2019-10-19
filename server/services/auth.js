@@ -1,14 +1,14 @@
 const jwt = require('express-jwt');
 const jwksRsa = require('jwks-rsa');
 
-const nameSpace = 'http://localhost:3000/';
+const nameSpace = `${process.env.NAMESPACE}/`;
 
 // Middleware 
 exports.checkJWT = jwt({ 
     secret: jwksRsa.expressJwtSecret({
         cache: true,
         rateLimit: true,
-        jwksRequestsPerMinute: 15,
+        jwksRequestsPerMinute: 50,
         jwksUri: 'https://dev--6tt3x9z.auth0.com/.well-known/jwks.json'
     }),
     audience: '7NRcfteyB8NkNgooxYr0VDxKZ1sV3sp0',

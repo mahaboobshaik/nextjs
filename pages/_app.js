@@ -6,7 +6,7 @@ import auth0 from '../services/auth0';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/main.scss';
 
-const namespace = 'http://localhost:3000'
+const namespace = process.env.NAMESPACE;
 
 class MyApp extends App {
   // Only uncomment this method if you have blocking data requirements for

@@ -92,15 +92,7 @@ class Blog extends Component {
                         <div className="col-lg-8 col-md-10 mx-auto">
                             <ul className="list-inline text-center">
                             <li className="list-inline-item">
-                                <a href="#">
-                                <span className="fa-stack fa-lg">
-                                    <i className="fas fa-circle fa-stack-2x"></i>
-                                    <i className="fab fa-twitter fa-stack-1x fa-inverse"></i>
-                                </span>
-                                </a>
-                            </li>
-                            <li className="list-inline-item">
-                                <a href="#">
+                                <a target="_blank" href="https://www.facebook.com/mahaboobbashas">
                                 <span className="fa-stack fa-lg">
                                     <i className="fas fa-circle fa-stack-2x"></i>
                                     <i className="fab fa-facebook-f fa-stack-1x fa-inverse"></i>
@@ -108,7 +100,7 @@ class Blog extends Component {
                                 </a>
                             </li>
                             <li className="list-inline-item">
-                                <a href="#">
+                                <a target="_blank" href="https://github.com/mahaboobshaik">
                                 <span className="fa-stack fa-lg">
                                     <i className="fas fa-circle fa-stack-2x"></i>
                                     <i className="fab fa-github fa-stack-1x fa-inverse"></i>
@@ -116,12 +108,17 @@ class Blog extends Component {
                                 </a>
                             </li>
                             </ul>
-                            <p className="copyright text-muted">Copyright &copy; Filip Jerga 2018</p>
+                            <p className="copyright text-muted">Copyright &copy; Mahaboob Basha 2019</p>
                         </div>
                         </Row>
                     </Container>
                     </footer>
                 </BasePage>
+                <style jsx>
+                {`
+                    @import url("https://use.fontawesome.com/releases/v5.5.0/css/all.css");
+                `}
+                </style>
             </BaseLayout>
         );
     }
