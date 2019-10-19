@@ -8,7 +8,7 @@ import { Row, Col } from 'reactstrap';
 class About extends Component {
     render() {
         return (
-            <BaseLayout {...this.props.auth}>
+            <BaseLayout {...this.props.auth} title="Mahaboob Basha - Learn More About Me">
                 <BasePage className="about-page">
                 <Row className="mt-5">
                     <Col md="6">
@@ -20,17 +20,15 @@ class About extends Component {
                     </Col>
                     <Col md="6">
                     <div className="fadein">
-                        <p>My name is Filip Jerga and I am an experienced software engineer and freelance developer. </p>
+                        <p>My name is Mahaboob basha and I am an experienced software engineer. </p>
                         <p>
-                        I have a Master's degree in Artificial Intelligence and several years of experience working
+                        I have a Master's degree in Computer Netowrks and several years of experience working
                         on a wide range of technologies and projects from C++ development for ultrasound devices to
                         modern mobile and web applications in React and Angular.
                         </p>
                         <p>
                         Throughout my career, I have acquired advanced technical knowledge and the ability to explain
-                        programming topics clearly and in detail to a broad audience. I invite you to take my course,
-                        where I have put a lot of effort to explain web and software engineering concepts in a detailed,
-                        hands-on and understandable way.
+                        programming topics clearly and in detail to a broad audience.
                         </p>
                     </div>
                     </Col>

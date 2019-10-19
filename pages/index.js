@@ -40,10 +40,12 @@ class Home extends Component {
         const { isFlipping } = this.state;
 
         return (
-            <BaseLayout className={`cover ${isFlipping ? 'cover-1' : 'cover-0'}`} {...this.props.auth} headerType="index">
+            <BaseLayout className={`cover ${isFlipping ? 'cover-1' : 'cover-0'}`} {...this.props.auth} 
+                    headerType="index"
+                    title="Mahaboob Basha - Portfolio">
                 <div className="main-section">
                     <div className="background-image">
-                    <img src="/static/images/background-index.png" />
+                        <img src="/static/images/background-index.png" alt="Programming welcome picture"/>
                     </div>
 
                     <Container>
@@ -58,7 +60,7 @@ class Home extends Component {
                                         Have a look at my portfolio and job history.
                                     </div>
                                     </div>
-                                    <img className="image" src="/static/images/section-1.png"/>
+                                    <img className="image" src="/static/images/section-1.png" alt="Programming welcome picture"/>
                                     <div className="shadow-custom">
                                     <div className="shadow-inner"> </div>
                                     </div>
@@ -70,7 +72,7 @@ class Home extends Component {
                                         Professional and top quality service in web development.
                                     </div>
                                     </div>
-                                    <img className="image" src="/static/images/section-2.png"/>
+                                    <img className="image" src="/static/images/section-2.png" alt="Programming welcome picture"/>
                                     <div className="shadow-custom shadow-custom-2">
                                     <div className="shadow-inner"> </div>
                                     </div>
@@ -81,7 +83,7 @@ class Home extends Component {
                         <Col md="6" className="hero-welcome-wrapper">
                         <div className="hero-welcome-text">
                             <h1>
-                            Welcome to the portfolio website of Filip Jerga.
+                            Welcome to the portfolio website of Mahboob Basha.
                             Get informed, collaborate and discover projects I was working on through the years!
                             </h1>
                         </div>
@@ -97,9 +99,9 @@ class Home extends Component {
                             cursorChar="|"
                         />
                         <div className="hero-welcome-bio">
-                            <h1>
+                            <h2>
                             Let's take a look on my work.
-                            </h1>
+                            </h2>
                         </div>
                         </Col>
                     </Row>

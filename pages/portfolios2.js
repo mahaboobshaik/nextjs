@@ -12,7 +12,7 @@ import { getPortfolios, deletePortfolio } from '../actions';
 
 import PortfolioCard from '../components/portfolios/PortfolioCard';
 
-class Portfolios extends Component {
+class Portfolios2 extends Component {
 
     static async getInitialProps(){
 
@@ -90,7 +90,7 @@ class Portfolios extends Component {
         const { isAuthenticated, isSiteOwner } = this.props.auth;
 
         return (
-            <BaseLayout {...this.props.auth} title="Mahaboob Basha - Learn About My Experience">
+            <BaseLayout canonical="/portfolios" {...this.props.auth} title="Mahaboob Basha - Learn About My Experience">
                 <BasePage className="portfolio-page" title="Portfolios">
                     {
                         isAuthenticated && isSiteOwner &&
@@ -107,5 +107,5 @@ class Portfolios extends Component {
     }
 }
 
-export default Portfolios;
+export default Portfolios2;
 
