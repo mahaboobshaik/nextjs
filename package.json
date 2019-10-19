@@ -41,6 +41,7 @@
     "react-typed": "^1.2.0",
     "reactstrap": "^8.0.1",
     "slate": "^0.44.6",
+    "slate-html-serializer": "^0.8.10",
     "slate-react": "^0.21.12"
   }
 }

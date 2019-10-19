@@ -56,3 +56,18 @@ export const updatePortfolio = async (portfolioData) => {
 export const deletePortfolio = (portfolioId) => {
     return axionInstance.delete(`/portfolios/${portfolioId}`, setAuthHeader()).then(resposne => resposne.data);
 }
+
+// ---------------- Blog Action ---------------
+
+export const createBlog = (blogData) => {
+
+    return axionInstance.post('/blogs', blogData, setAuthHeader())
+            .then(response => response.data)
+            .catch(err => rejectPormise(err))
+
+    // return new Promise((resolve, reject) => {
+    //     setTimeout(() => {
+    //         resolve('Promise resolved!!!!!!');
+    //     }, 1000)
+    // })
+}

@@ -4,6 +4,11 @@ import HoverMenu from './HoverMenu';
 import { renderMark, renderNode } from './renderers';
 import { initialValue } from './initial-value';
 
+import ControllMenu from './ControllMenu';
+import Html from 'slate-html-serializer';
+import { rules } from './rules';
+const html = new Html({ rules })
+
 // Define our app...
 class SlateEditor extends Component {
     // Set the initial value when the app is first constructed.
@@ -51,6 +56,26 @@ class SlateEditor extends Component {
         rect.width / 2}px`
     }
 
+    getTitle(){
+
+      const { value } = this.state;
+      const firstBlock = value.document.getBlocks().get(0);
+      const secondBlock = value.document.getBlocks().get(1);
+      debugger;
+      const title = firstBlock && firstBlock.text ? firstBlock.text : 'No Title';
+      const subtitle = secondBlock && secondBlock.text ? secondBlock.text : 'No SubTitle';
+
+      return { title, subtitle };
+    }
+
+    save(){
+      const { value } = this.state;
+      const { save } = this.props;
+      const headingValues = this.getTitle();
+      const text = html.serialize(value);
+      save(text, headingValues);
+    }
+
     // Render the editor.
     render() {
       
@@ -60,7 +85,7 @@ class SlateEditor extends Component {
         <Fragment>
           {
             isLoaded &&
-            <Editor 
+            <Editor {...this.props}
                     placeholder="Enter some text..."
                     value={this.state.value} 
                     onChange={this.onChange}
@@ -75,10 +100,12 @@ class SlateEditor extends Component {
 
 
     renderEditor = (props, editor, next) => {
-      const children = next()
+      const children = next();
+      const { isLoading } = props;
   
       return (
         <Fragment>
+          <ControllMenu isLoading={isLoading} save={() => this.save()}></ControllMenu>
           {children}
           <HoverMenu innerRef={menu => (this.menu = menu)} editor={editor} />
         </Fragment>
