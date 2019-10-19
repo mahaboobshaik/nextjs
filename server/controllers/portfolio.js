@@ -1,4 +1,4 @@
-const Portfolio = require('../models/Portfolio');
+const Portfolio = require('../models/portfolio');
 
 exports.getPortfolios = (req, res) => {
 
