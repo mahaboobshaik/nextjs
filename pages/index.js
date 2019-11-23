@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
 import Navbar from '../components/navbar';
 import Sidemenu from '../components/sidemenu';
@@ -6,20 +6,25 @@ import Carousel from '../components/carousel';
 import MovieList from '../components/movieList';
 import Footer from '../components/footer';
 
+import { getMovies } from '../actions';
 
 const Home = () => {
 
-  const [ count, setCount ] = useState(0);
+  const [movies, setMovies] = useState([]);
+  const [count, setCount] = useState([]);
+  
+  useEffect(() => {
+    // getMovies().then((movies) => {
+    //   setMovies(movies);
+    // });
+    const fetchData = async () => {
+      const resMovies = await getMovies();
+      setMovies(resMovies);
+    }
 
-  const increment = () => {
-      const newCount = count + 1;
-      setCount(newCount);
-  }
-
-  const decrement = () => {
-      const newCount = count - 1;
-      setCount(newCount);
-  }
+    fetchData();
+    
+  }, [count]);
 
   return (
     <div>
@@ -34,21 +39,18 @@ const Home = () => {
       <Navbar />
       <div className="home-page">
         <div className="container">
-          <button className="btn btn-primary" onClick={increment}>Increment Number</button>
-          <button className="btn btn-primary" onClick={decrement}>Decrement Number</button>
+          <button onClick={() => { setCount(count + 1)}}>Click Me!</button>
           <div className="row">
 
             <div className="col-lg-3">
               <Sidemenu 
-                appName={"Movie DB"}
-                clickHandler={() => {console.log("Hello world")}}
-                count={count} />
+                appName={"Movie DB"} />
             </div>
 
             <div className="col-lg-9">
               <Carousel />
               <div className="row">
-                <MovieList count={count}/>
+                <MovieList movies={movies}/>
               </div>
             </div>
           </div>
